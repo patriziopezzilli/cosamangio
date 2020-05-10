@@ -23,6 +23,7 @@ public class Merchant implements Serializable {
     private Double latitude;
     private Double longitude;
     private List<String> tags;
+    private List<String> allergens;
     private List<Social> socials;
     private String photoUrl;
     private Boolean weeklyMenuActive;
@@ -31,6 +32,14 @@ public class Merchant implements Serializable {
 
     public Merchant() {
 
+    }
+
+    public List<String> getAllergens() {
+        return allergens;
+    }
+
+    public void setAllergens(List<String> allergens) {
+        this.allergens = allergens;
     }
 
     public String getId() {

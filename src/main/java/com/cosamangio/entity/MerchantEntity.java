@@ -23,6 +23,7 @@ public class MerchantEntity {
     private Double latitude;
     private Double longitude;
     private List<String> tags;
+    private List<String> allergens;
     private List<SocialEntity> socials;
     private String photoUrl;
     private Boolean weeklyMenuActive;
@@ -76,6 +77,14 @@ public class MerchantEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public List<String> getAllergens() {
+        return allergens;
+    }
+
+    public void setAllergens(List<String> allergens) {
+        this.allergens = allergens;
     }
 
     public void setEmail(String email) {
