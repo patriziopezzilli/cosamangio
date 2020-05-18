@@ -5,41 +5,27 @@ import com.cosamangio.repository.MerchantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.cosamangio.utils.CosaMangioConstants.SECURITY_VALUE;
+
 @Component
 public class AuthFilter {
 
-    private final MerchantRepository merchantRepository;
-
-    public AuthFilter(MerchantRepository merchantRepository) {
-        this.merchantRepository = merchantRepository;
+    public AuthFilter() {
     }
 
-    public void validate(String email, String password) {
+    public void validate(String key) {
 
         /**
          * Validate email and password
          */
-        if (null == email || null == password) {
-            throw new IllegalArgumentException("email and password must be populated");
+        if (null == key) {
+            throw new IllegalArgumentException("key must be populated");
         }
-
-        /**
-         * Retrieve merchant
-         */
-        MerchantEntity merchant = merchantRepository.findByEmailAndActive(email.toLowerCase(), true);
-
-        /**
-         * Validate nullabilty
-         */
-        if (null == merchant) {
-            throw new IllegalArgumentException("merchant " + email + " not present");
-        }
-
         /**
          * Validate password
          */
-        if (!merchant.getPassword().equals(password)) {
-            throw new IllegalArgumentException("password is wrong");
+        if (!key.equals(SECURITY_VALUE)) {
+            throw new IllegalArgumentException("security key is wrong");
         }
     }
 }

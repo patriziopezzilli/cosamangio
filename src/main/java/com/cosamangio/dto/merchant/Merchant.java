@@ -18,6 +18,7 @@ public class Merchant implements Serializable {
     private String email;
     private String validationCode;
     private Boolean validated;
+    private Boolean active;
     private String description;
     private String address;
     private Double latitude;
@@ -40,6 +41,14 @@ public class Merchant implements Serializable {
 
     public void setAllergens(List<String> allergens) {
         this.allergens = allergens;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getId() {

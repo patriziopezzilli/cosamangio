@@ -1,47 +1,54 @@
 package com.cosamangio.controller;
 
 import com.cosamangio.filter.AuthFilter;
+import com.cosamangio.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static com.cosamangio.utils.CosaMangioConstants.EMAIL_HEADER;
-import static com.cosamangio.utils.CosaMangioConstants.PASSWORD_HEADER;
+import java.util.List;
+
+import static com.cosamangio.utils.CosaMangioConstants.SECURITY_KEY_HEADER;
 
 @RestController
 public class MenuController {
 
     private final AuthFilter authFilter;
+    private final MenuService menuService;
 
-    public MenuController(AuthFilter authFilter) {
+    public MenuController(AuthFilter authFilter, MenuService menuService) {
         this.authFilter = authFilter;
+        this.menuService = menuService;
     }
 
-    @PostMapping("/merchant/{merchantId}/menu")
-    public void addMenu
-            (@RequestHeader(EMAIL_HEADER) String email,
-             @RequestHeader(PASSWORD_HEADER) String password
-            ) {
-
-        authFilter.validate(email, password);
-
+    @PostMapping("/menu")
+    public void addMenu(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String merchantCode,
+            @RequestParam String menuName,
+            @RequestParam(required = false) List<String> sections
+    ) {
+        authFilter.validate(headerKey);
+        menuService.createMenu(merchantCode, menuName, sections);
     }
 
-    @PutMapping("/merchant/{merchantId}/menu/{menuId}")
-    public void editMenu
-            (@RequestHeader(EMAIL_HEADER) String email,
-             @RequestHeader(PASSWORD_HEADER) String password
-            ) {
-
-        authFilter.validate(email, password);
-
+    @PutMapping("/menu")
+    public void editMenu(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String merchantCode,
+            @RequestParam String oldName,
+            @RequestParam String newName
+    ) {
+        authFilter.validate(headerKey);
+        menuService.updateMenuName(merchantCode, oldName, newName);
     }
 
-    @DeleteMapping("/merchant/{merchantId}/menu/{menuId}")
-    public void deleteMenu
-            (@RequestHeader(EMAIL_HEADER) String email,
-             @RequestHeader(PASSWORD_HEADER) String password
-            ) {
-
-        authFilter.validate(email, password);
+    @DeleteMapping("/menu")
+    public void deleteMenu(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String merchantCode,
+            @RequestParam String menuName
+    ) {
+        authFilter.validate(headerKey);
+        menuService.deleteMenu(merchantCode, menuName);
     }
 }
