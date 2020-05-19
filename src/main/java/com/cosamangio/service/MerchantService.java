@@ -55,6 +55,7 @@ public class MerchantService {
         entity.setPassword("");
         entity.setAddress(request.getAddress());
         entity.setPhotoUrl("");
+        entity.setRating(5.0);
 
         /**
          * Retrieve lat and long

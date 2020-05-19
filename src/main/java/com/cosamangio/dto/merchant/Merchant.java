@@ -19,6 +19,7 @@ public class Merchant implements Serializable {
     private String validationCode;
     private Boolean validated;
     private Boolean active;
+    private Double rating;
     private String description;
     private String address;
     private Double latitude;
@@ -49,6 +50,14 @@ public class Merchant implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public String getId() {

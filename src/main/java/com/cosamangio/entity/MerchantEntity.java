@@ -15,6 +15,7 @@ public class MerchantEntity {
     private String shortName;
     private String vatCode;
     private String email;
+    private Double rating;
     private String validationCode;
     private Boolean validated;
     private String description;
@@ -45,6 +46,14 @@ public class MerchantEntity {
 
     public String getCode() {
         return code;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public void setCode(String code) {

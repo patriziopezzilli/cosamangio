@@ -20,6 +20,12 @@ public class MenuService {
         this.merchantRepository = repository;
     }
 
+    public void deleteAllMenu(String merchantCode) {
+        MerchantEntity toDelete = merchantRepository.findByCode(merchantCode);
+        toDelete.setMenus(new ArrayList<>());
+        merchantRepository.save(toDelete);
+    }
+
     public void deleteMenu(String merchantCode, String menuName) {
         MerchantEntity toDelete = merchantRepository.findByCode(merchantCode);
         List<MenuEntity> newMenuList = new ArrayList<>();

@@ -51,4 +51,13 @@ public class MenuController {
         authFilter.validate(headerKey);
         menuService.deleteMenu(merchantCode, menuName);
     }
+
+    @DeleteMapping("/menu/all")
+    public void deleteMenu(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String merchantCode
+    ) {
+        authFilter.validate(headerKey);
+        menuService.deleteAllMenu(merchantCode);
+    }
 }
