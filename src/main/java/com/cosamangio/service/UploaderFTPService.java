@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class UploaderFTPService {
 
-    public void upload(MultipartFile file, String merchantCode) {
+    public void upload(MultipartFile file, String merchantCode, String prefix) {
         String FTP_ADDRESS = "ftp.ristorantemonopoli.com";
         String LOGIN = "n63o4crk";
         String PSW = "86h4n*8g%(*u";
@@ -23,7 +23,7 @@ public class UploaderFTPService {
                 con.enterLocalPassiveMode();
                 con.setFileType(FTP.BINARY_FILE_TYPE);
 
-                boolean result = con.storeFile("public_html/ristoranti/" + file.getOriginalFilename(), file.getInputStream());
+                boolean result = con.storeFile("public_html/ristoranti/" + prefix + file.getOriginalFilename(), file.getInputStream());
                 con.logout();
                 con.disconnect();
 

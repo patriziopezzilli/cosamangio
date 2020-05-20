@@ -11,6 +11,8 @@ public class MenuEntity {
     private Date lastUpdateDate;
     private String currency;
     private String locale;
+    private Boolean isPdf;
+    private String pdfUrl;
     private String name;
     private List<SectionEntity> sections;
 
@@ -60,6 +62,22 @@ public class MenuEntity {
 
     public String getLocale() {
         return locale;
+    }
+
+    public Boolean getPdf() {
+        return isPdf;
+    }
+
+    public void setPdf(Boolean pdf) {
+        isPdf = pdf;
+    }
+
+    public String getPdfUrl() {
+        return pdfUrl;
+    }
+
+    public void setPdfUrl(String pdfUrl) {
+        this.pdfUrl = pdfUrl;
     }
 
     public void setLocale(String locale) {

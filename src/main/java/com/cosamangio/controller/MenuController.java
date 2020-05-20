@@ -4,6 +4,7 @@ import com.cosamangio.filter.AuthFilter;
 import com.cosamangio.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,8 +29,21 @@ public class MenuController {
             @RequestParam(required = false) List<String> sections
     ) {
         authFilter.validate(headerKey);
-        menuService.createMenu(merchantCode, menuName, sections);
+        menuService.createMenu(merchantCode, menuName, sections, null);
     }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/menu/pdf")
+    public void addPDFMenu(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String merchantCode,
+            @RequestParam String menuName,
+            @RequestParam("file") MultipartFile file
+    ) {
+        authFilter.validate(headerKey);
+        menuService.createMenu(merchantCode, menuName, null, file);
+    }
+
 
     @PutMapping("/menu")
     public void editMenu(

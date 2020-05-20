@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-05-18T15:11:02+0200",
+    date = "2020-05-20T10:58:52+0200",
     comments = "version: 1.3.0.Beta2, compiler: javac, environment: Java 1.8.0_252 (Amazon.com Inc.)"
 )
 @Component
@@ -30,6 +30,7 @@ public class MerchantMapperImpl implements MerchantMapper {
         MerchantEntity merchantEntity = new MerchantEntity();
 
         merchantEntity.setId( source.getId() );
+        merchantEntity.setRating( source.getRating() );
         merchantEntity.setCode( source.getCode() );
         merchantEntity.setName( source.getName() );
         merchantEntity.setShortName( source.getShortName() );
@@ -72,6 +73,7 @@ public class MerchantMapperImpl implements MerchantMapper {
             merchant.setAllergens( new ArrayList<String>( list ) );
         }
         merchant.setActive( destination.getActive() );
+        merchant.setRating( destination.getRating() );
         merchant.setId( destination.getId() );
         merchant.setCode( destination.getCode() );
         merchant.setName( destination.getName() );

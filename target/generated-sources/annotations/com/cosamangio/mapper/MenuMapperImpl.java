@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-05-18T15:11:01+0200",
+    date = "2020-05-20T10:58:52+0200",
     comments = "version: 1.3.0.Beta2, compiler: javac, environment: Java 1.8.0_252 (Amazon.com Inc.)"
 )
 @Component
@@ -31,6 +31,8 @@ public class MenuMapperImpl implements MenuMapper {
         menuEntity.setCode( source.getCode() );
         menuEntity.setLastUpdateDate( source.getLastUpdateDate() );
         menuEntity.setCurrency( source.getCurrency() );
+        menuEntity.setPdf( source.getPdf() );
+        menuEntity.setPdfUrl( source.getPdfUrl() );
         menuEntity.setLocale( source.getLocale() );
         menuEntity.setName( source.getName() );
         menuEntity.setSections( sectionMapper.mapToEntities( source.getSections() ) );
@@ -50,6 +52,8 @@ public class MenuMapperImpl implements MenuMapper {
         menu.setCode( destination.getCode() );
         menu.setLastUpdateDate( destination.getLastUpdateDate() );
         menu.setCurrency( destination.getCurrency() );
+        menu.setPdf( destination.getPdf() );
+        menu.setPdfUrl( destination.getPdfUrl() );
         menu.setLocale( destination.getLocale() );
         menu.setName( destination.getName() );
         menu.setSections( sectionMapper.mapToDtos( destination.getSections() ) );

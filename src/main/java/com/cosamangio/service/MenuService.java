@@ -1,11 +1,11 @@
 package com.cosamangio.service;
 
-import com.cosamangio.dto.menu.Menu;
 import com.cosamangio.entity.MenuEntity;
 import com.cosamangio.entity.MerchantEntity;
 import com.cosamangio.entity.SectionEntity;
 import com.cosamangio.repository.MerchantRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,9 +15,11 @@ import java.util.UUID;
 @Service
 public class MenuService {
     private final MerchantRepository merchantRepository;
+    private final UploaderFTPService uploaderFTPService;
 
-    public MenuService(MerchantRepository repository) {
+    public MenuService(MerchantRepository repository, UploaderFTPService uploaderFTPService) {
         this.merchantRepository = repository;
+        this.uploaderFTPService = uploaderFTPService;
     }
 
     public void deleteAllMenu(String merchantCode) {
@@ -55,7 +57,7 @@ public class MenuService {
         }
     }
 
-    public void createMenu(String merchantCode, String name, List<String> sections) {
+    public void createMenu(String merchantCode, String name, List<String> sections, MultipartFile file) {
         MerchantEntity toUpdate = merchantRepository.findByCode(merchantCode);
         MenuEntity newMenu = new MenuEntity();
         newMenu.setCode(UUID.randomUUID().toString());
@@ -63,6 +65,15 @@ public class MenuService {
         newMenu.setLastUpdateDate(new Date());
         newMenu.setName(name);
         newMenu.setSections(new ArrayList<>());
+
+        if(file != null) {
+            newMenu.setPdf(true);
+            newMenu.setPdfUrl("http://www.ristorantemonopoli.com/ristoranti/pdf/" + file.getOriginalFilename());
+            uploaderFTPService.upload(file, merchantCode, "pdf/");
+        } else {
+            newMenu.setPdf(false);
+            newMenu.setPdfUrl("");
+        }
 
         if (sections != null) {
             for (String section : sections) {
@@ -73,6 +84,8 @@ public class MenuService {
 
                 newMenu.getSections().add(entity);
             }
+        } else {
+            newMenu.setSections(new ArrayList<>());
         }
 
         toUpdate.getMenus().add(newMenu);

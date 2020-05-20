@@ -151,7 +151,7 @@ public class MerchantController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logo", consumes = "multipart/form-data")
-    public void handleFileUpload(@RequestParam("file") MultipartFile file,
+    public void uploadLogo(@RequestParam("file") MultipartFile file,
                                    @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
                                    @RequestParam String merchantCode) {
         authFilter.validate(headerKey);

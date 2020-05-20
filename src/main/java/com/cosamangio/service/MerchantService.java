@@ -223,7 +223,7 @@ public class MerchantService {
 
     public void uploadLogo(String merchantCode, MultipartFile file) {
         MerchantEntity merchantEntity = merchantRepository.findByCode(merchantCode);
-        uploaderFTPService.upload(file, merchantCode);
+        uploaderFTPService.upload(file, merchantCode, "");
         merchantEntity.setPhotoUrl("http://www.ristorantemonopoli.com/ristoranti/" + file.getOriginalFilename());
         merchantRepository.save(merchantEntity);
     }
