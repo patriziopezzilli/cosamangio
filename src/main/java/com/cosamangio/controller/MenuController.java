@@ -21,6 +21,11 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    @GetMapping("/reindex")
+    public void reindex(){
+      //  menuService.reindex();
+    }
+
     @PostMapping("/menu")
     public void addMenu(
             @RequestHeader(SECURITY_KEY_HEADER) String headerKey,

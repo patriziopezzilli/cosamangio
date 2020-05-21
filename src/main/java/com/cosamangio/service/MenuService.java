@@ -3,6 +3,7 @@ package com.cosamangio.service;
 import com.cosamangio.entity.MenuEntity;
 import com.cosamangio.entity.MerchantEntity;
 import com.cosamangio.entity.SectionEntity;
+import com.cosamangio.entity.SectionItem;
 import com.cosamangio.repository.MerchantRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,19 @@ public class MenuService {
     public MenuService(MerchantRepository repository, UploaderFTPService uploaderFTPService) {
         this.merchantRepository = repository;
         this.uploaderFTPService = uploaderFTPService;
+    }
+
+    public void reindex() {
+        System.out.println("> STAR reindex");
+        List<MerchantEntity> entities = merchantRepository.findAll();
+        for (MerchantEntity entity : entities) {
+            entity.setPhotoUrl(entity.getPhotoUrl().replace("http", "https"));
+            for (MenuEntity menu : entity.getMenus()) {
+                menu.setPdfUrl(entity.getPhotoUrl().replace("http", "https"));
+            }
+        }
+        merchantRepository.saveAll(entities);
+        System.out.println("> reindex COMPLETED");
     }
 
     public void deleteAllMenu(String merchantCode) {
@@ -68,7 +82,7 @@ public class MenuService {
 
         if(file != null) {
             newMenu.setPdf(true);
-            newMenu.setPdfUrl("http://www.ristorantemonopoli.com/ristoranti/pdf/" + file.getOriginalFilename());
+            newMenu.setPdfUrl("https://www.ristorantemonopoli.com/ristoranti/pdf/" + file.getOriginalFilename());
             uploaderFTPService.upload(file, merchantCode, "pdf/");
         } else {
             newMenu.setPdf(false);
