@@ -25,12 +25,29 @@ public class MenuService {
 
     public void reindex() {
         System.out.println("> STAR reindex");
+        String replace = "httpss:/";
         List<MerchantEntity> entities = merchantRepository.findAll();
         for (MerchantEntity entity : entities) {
-            entity.setPhotoUrl(entity.getPhotoUrl().replace("http", "https"));
             for (MenuEntity menu : entity.getMenus()) {
-                menu.setPdfUrl(entity.getPhotoUrl().replace("http", "https"));
+                if(menu.getCode() == null || menu.getCode().equalsIgnoreCase("")) {
+                    menu.setCode(UUID.randomUUID().toString());
+                }
+
+                for (SectionEntity section : menu.getSections()) {
+                    if(section.getCode() == null || section.getCode().equalsIgnoreCase("")) {
+                        section.setCode(UUID.randomUUID().toString());
+                    }
+
+                    for (SectionItem item : section.getItemList()) {
+                        if(item.getCode() == null || item.getCode().equalsIgnoreCase("")) {
+                            item.setCode(UUID.randomUUID().toString());
+                        }
+
+                        item.setAvailable(true);
+                    }
+                }
             }
+
         }
         merchantRepository.saveAll(entities);
         System.out.println("> reindex COMPLETED");

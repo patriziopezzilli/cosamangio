@@ -21,6 +21,25 @@ public class SectionService {
         this.merchantRepository = repository;
     }
 
+    public void markAvailable(String merchantCode, String sectionCode, String itemCode, Boolean ava) {
+        MerchantEntity merchantEntity = merchantRepository.findByCode(merchantCode);
+        if (null != merchantEntity) {
+            merchantEntity.getMenus().forEach(m -> {
+                m.getSections().forEach(s -> {
+                    if (s.getCode().equals(sectionCode)) {
+                        s.getItemList().forEach(i -> {
+                            if (i.getCode().equals(itemCode)) {
+                                i.setAvailable(ava);
+                            }
+                        });
+                    }
+                });
+            });
+
+            merchantRepository.save(merchantEntity);
+        }
+    }
+
     public void createItem(String merchantCode, String sectionCode, String title, String subtitle, String price) {
         MerchantEntity merchantEntity = merchantRepository.findByCode(merchantCode);
         if (null != merchantEntity) {

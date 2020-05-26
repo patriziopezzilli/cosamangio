@@ -10,6 +10,7 @@ public class Item implements Serializable {
     private String subtitle;
     private String description;
     private String price;
+    private Boolean available;
 
     public Item(){
 
@@ -41,6 +42,14 @@ public class Item implements Serializable {
 
     public String getSubtitle() {
         return subtitle;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public void setSubtitle(String subtitle) {

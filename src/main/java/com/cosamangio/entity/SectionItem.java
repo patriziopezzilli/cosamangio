@@ -7,6 +7,7 @@ public class SectionItem {
     private String title;
     private String subtitle;
     private String description;
+    private Boolean available;
     private String price;
 
     public SectionItem() {
@@ -42,6 +43,14 @@ public class SectionItem {
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public String getDescription() {

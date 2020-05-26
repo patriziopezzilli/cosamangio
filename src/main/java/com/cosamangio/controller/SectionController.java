@@ -62,6 +62,19 @@ public class SectionController {
         sectionService.deleteItem(merchantCode, sectionCode, itemCode);
     }
 
+
+    @PutMapping("/section/item/available")
+    public void markItem(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String merchantCode,
+            @RequestParam String sectionCode,
+            @RequestParam String itemCode,
+            @RequestParam Boolean available
+    ) {
+        authFilter.validate(headerKey);
+        sectionService.markAvailable(merchantCode, sectionCode, itemCode, available);
+    }
+
     @DeleteMapping("/section/item/all")
     public void deleteAllItem(
             @RequestHeader(SECURITY_KEY_HEADER) String headerKey,

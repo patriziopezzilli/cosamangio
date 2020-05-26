@@ -23,7 +23,7 @@ public class MenuController {
 
     @GetMapping("/reindex")
     public void reindex(){
-      //  menuService.reindex();
+       // menuService.reindex();
     }
 
     @PostMapping("/menu")
