@@ -50,6 +50,7 @@ public class SectionService {
                         item.setCode(UUID.randomUUID().toString());
                         item.setTitle(title);
                         item.setSubtitle(subtitle);
+                        item.setAvailable(true);
                         item.setDescription("");
                         item.setPrice(price);
 
