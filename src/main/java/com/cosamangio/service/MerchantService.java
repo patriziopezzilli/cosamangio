@@ -159,6 +159,7 @@ public class MerchantService {
 
 
     public void editAllergens(String merchantCode, List<String> allergens) {
+        System.out.print("> [editAllergens] update allergens for merchant " + merchantCode + " with " + allergens.toString());
         List<String> newAllergensList = new ArrayList<>();
 
         for (String allergen : allergens) {
