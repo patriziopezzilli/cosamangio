@@ -9,6 +9,10 @@ import com.cosamangio.repository.QRCodeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,13 +28,30 @@ public class QRCodeService {
         this.qrCodeMapper = mapper;
     }
 
-    public void enableQRCode(String merchantCode){
+    public void enableQRCode(String merchantCode) {
         QRCodeEntity entity = new QRCodeEntity();
-        entity.setCode(UUID.randomUUID().toString()); // questo sarà il QR code effettivo
+        String uuid = UUID.randomUUID().toString();
+        entity.setCode(uuid); // questo sarà il QR code effettivo
         entity.setMerchantCode(merchantCode);
         entity.setPdfUrl("");
 
         qrCodeRepository.save(entity);
+
+        try {
+            URL yahoo = new URL("http://www.cosamangio-qrcode.it?qrCode="
+            + uuid + "&merchantCode="+merchantCode+"&pdfUrl=MOM");
+            URLConnection yc = yahoo.openConnection();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                            yc.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null)
+                System.out.println(inputLine);
+            in.close();
+        } catch (Exception e) {
+            System.out.println("> [ERROR] failed to update MYSQL");
+        }
     }
 
     public QRCode getQRCode(String qrCode) {
