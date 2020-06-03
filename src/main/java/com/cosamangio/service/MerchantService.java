@@ -3,10 +3,13 @@ package com.cosamangio.service;
 import com.cosamangio.dto.LatLong;
 import com.cosamangio.dto.merchant.CreateMerchantRequest;
 import com.cosamangio.dto.merchant.Merchant;
+import com.cosamangio.dto.qrcode.QRCode;
 import com.cosamangio.entity.MerchantEntity;
+import com.cosamangio.entity.QRCodeEntity;
 import com.cosamangio.entity.SocialEntity;
 import com.cosamangio.mapper.MerchantMapper;
 import com.cosamangio.repository.MerchantRepository;
+import com.cosamangio.repository.QRCodeRepository;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,13 +24,15 @@ public class MerchantService {
 
     private final Random rand = new Random();
     private final MerchantRepository merchantRepository;
+    private final QRCodeRepository qrCodeRepository;
     private final MerchantMapper merchantMapper;
     private final LocalizationService localizationService;
     private final VatService vatService;
     private final UploaderFTPService uploaderFTPService;
 
-    public MerchantService(MerchantRepository merchantRepository, MerchantMapper merchantMapper, LocalizationService localizationService, VatService vatService, UploaderFTPService uploaderFTPService) {
+    public MerchantService(MerchantRepository merchantRepository, QRCodeRepository qrCodeRepository, MerchantMapper merchantMapper, LocalizationService localizationService, VatService vatService, UploaderFTPService uploaderFTPService) {
         this.merchantRepository = merchantRepository;
+        this.qrCodeRepository = qrCodeRepository;
         this.merchantMapper = merchantMapper;
         this.localizationService = localizationService;
         this.vatService = vatService;
@@ -130,6 +135,21 @@ public class MerchantService {
      */
     public Merchant findOne(String email) {
         return merchantMapper.mapToDto(merchantRepository.findByEmail(email));
+    }
+
+    public Merchant findByQRCode(String code) {
+        QRCodeEntity qrCodeEntity = qrCodeRepository.findByMerchantCode(code);
+        if(qrCodeEntity != null) {
+            MerchantEntity merchantEntity = merchantRepository.findByCode(qrCodeEntity.getMerchantCode());
+
+            if(merchantEntity != null) {
+                return merchantMapper.mapToDto(merchantEntity);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     public void updateSocial(String merchantCode, String socialCode, String name, String url) {

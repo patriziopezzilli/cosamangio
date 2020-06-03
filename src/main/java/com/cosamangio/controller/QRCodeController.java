@@ -21,7 +21,7 @@ public class QRCodeController {
 
     @GetMapping("/qrcode/test")
     public void test() {
-        //qrCodeService.enableQRCode("832bddf7-115e-45e4-b08f-43f25fe86b6f");
+        qrCodeService.enableQRCode("39170500-2d95-47d7-8072-29f055ece36c");
     }
 
     @GetMapping("/qrcode/resolve")

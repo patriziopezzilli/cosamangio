@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-05-20T10:58:53+0200",
+    date = "2020-06-03T17:28:44+0200",
     comments = "version: 1.3.0.Beta2, compiler: javac, environment: Java 1.8.0_252 (Amazon.com Inc.)"
 )
 @Component
@@ -27,6 +27,7 @@ public class SectionItemMapperImpl implements SectionItemMapper {
         sectionItem.setCode( source.getCode() );
         sectionItem.setTitle( source.getTitle() );
         sectionItem.setSubtitle( source.getSubtitle() );
+        sectionItem.setAvailable( source.getAvailable() );
         sectionItem.setDescription( source.getDescription() );
         sectionItem.setPrice( source.getPrice() );
 
@@ -44,6 +45,7 @@ public class SectionItemMapperImpl implements SectionItemMapper {
         item.setId( destination.getId() );
         item.setCode( destination.getCode() );
         item.setTitle( destination.getTitle() );
+        item.setAvailable( destination.getAvailable() );
         item.setSubtitle( destination.getSubtitle() );
         item.setDescription( destination.getDescription() );
         item.setPrice( destination.getPrice() );

@@ -59,6 +59,15 @@ public class MerchantController {
         return merchantService.findOne(email);
     }
 
+    @GetMapping("/qrcode")
+    public Merchant retrieveByQRCode(
+            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
+            @RequestParam String code) {
+
+        authFilter.validate(headerKey);
+        return merchantService.findByQRCode(code);
+    }
+
     @PutMapping("/name")
     public void updateName(
             @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
