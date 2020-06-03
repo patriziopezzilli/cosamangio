@@ -138,7 +138,7 @@ public class MerchantService {
     }
 
     public Merchant findByQRCode(String code) {
-        QRCodeEntity qrCodeEntity = qrCodeRepository.findByMerchantCode(code);
+        QRCodeEntity qrCodeEntity = qrCodeRepository.findByCode(code);
         if(qrCodeEntity != null) {
             MerchantEntity merchantEntity = merchantRepository.findByCode(qrCodeEntity.getMerchantCode());
 
