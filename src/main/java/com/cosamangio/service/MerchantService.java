@@ -11,6 +11,10 @@ import com.cosamangio.mapper.MerchantMapper;
 import com.cosamangio.repository.MerchantRepository;
 import com.cosamangio.repository.QRCodeRepository;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,6 +73,11 @@ public class MerchantService {
         entity.setLatitude(latLong.getLatitude());
         entity.setLongitude(latLong.getLongitude());
 
+        final GeoJsonPoint locationPoint = new GeoJsonPoint(
+                latLong.getLongitude(),
+                latLong.getLatitude());
+        entity.setGeoPoint(locationPoint);
+
         /**
          * Set validation code
          */
@@ -103,6 +112,32 @@ public class MerchantService {
         List<MerchantEntity> entities = merchantRepository.findByActive(true);
 
         return merchantMapper.mapToDtos(entities);
+    }
+
+    public List<Merchant> findByPosition(Double latitude, Double longitude) {
+        List<MerchantEntity> entities = this.merchantRepository.findByActiveAndGeoPointNear(
+                true,
+                new Point(longitude, latitude),
+                new Distance(2.5, Metrics.KILOMETERS));
+
+        return merchantMapper.mapToDtos(entities);
+    }
+
+    public List<Merchant> search(String text) {
+        List<Merchant> merchants = findAll();
+        List<Merchant> response = new ArrayList<>();
+
+        for (Merchant merchant : merchants) {
+            try {
+                if (merchant.getName().toLowerCase().contains(text)) {
+                    response.add(merchant);
+                }
+            }catch (Exception e) {
+
+            }
+        }
+
+        return response;
     }
 
     public void updateName(String merchantCode, String name) {

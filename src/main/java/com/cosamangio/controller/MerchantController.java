@@ -186,6 +186,28 @@ public class MerchantController {
     }
 
     /**
+     * Retrieve all by latitude and longitude
+     *
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    @GetMapping("/around")
+    public List<Merchant> retrieveMerchantsByPosition(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude
+    ) {
+        return merchantService.findByPosition(latitude, longitude);
+    }
+
+    @GetMapping("/search")
+    List<Merchant> search(
+            @RequestParam String text
+    ) {
+        return merchantService.search(text);
+    }
+
+    /**
      * Update my merchant info (description, photo)..
      *
      * @param request

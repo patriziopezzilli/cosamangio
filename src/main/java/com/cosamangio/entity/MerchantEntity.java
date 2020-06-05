@@ -1,6 +1,7 @@
 package com.cosamangio.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class MerchantEntity {
     private String address;
     private Double latitude;
     private Double longitude;
+    private GeoJsonPoint geoPoint;
     private List<String> tags;
     private List<String> allergens;
     private List<SocialEntity> socials;
@@ -210,5 +212,13 @@ public class MerchantEntity {
 
     public void setMenus(List<MenuEntity> menus) {
         this.menus = menus;
+    }
+
+    public GeoJsonPoint getGeoPoint() {
+        return geoPoint;
+    }
+
+    public void setGeoPoint(GeoJsonPoint geoPoint) {
+        this.geoPoint = geoPoint;
     }
 }

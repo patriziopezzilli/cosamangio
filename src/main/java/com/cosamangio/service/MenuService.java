@@ -5,6 +5,7 @@ import com.cosamangio.entity.MerchantEntity;
 import com.cosamangio.entity.SectionEntity;
 import com.cosamangio.entity.SectionItem;
 import com.cosamangio.repository.MerchantRepository;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,30 +26,17 @@ public class MenuService {
 
     public void reindex() {
         System.out.println("> STAR reindex");
-        String replace = "httpss:/";
         List<MerchantEntity> entities = merchantRepository.findAll();
         for (MerchantEntity entity : entities) {
-            for (MenuEntity menu : entity.getMenus()) {
-                if(menu.getCode() == null || menu.getCode().equalsIgnoreCase("")) {
-                    menu.setCode(UUID.randomUUID().toString());
-                }
 
-                for (SectionEntity section : menu.getSections()) {
-                    if(section.getCode() == null || section.getCode().equalsIgnoreCase("")) {
-                        section.setCode(UUID.randomUUID().toString());
-                    }
+            final GeoJsonPoint locationPoint = new GeoJsonPoint(
+                    entity.getLongitude(),
+                    entity.getLatitude());
 
-                    for (SectionItem item : section.getItemList()) {
-                        if(item.getCode() == null || item.getCode().equalsIgnoreCase("")) {
-                            item.setCode(UUID.randomUUID().toString());
-                        }
-
-                        item.setAvailable(true);
-                    }
-                }
-            }
+            entity.setGeoPoint(locationPoint);
 
         }
+
         merchantRepository.saveAll(entities);
         System.out.println("> reindex COMPLETED");
     }
