@@ -115,7 +115,7 @@ public class MerchantService {
     }
 
     public List<Merchant> findByPosition(Double latitude, Double longitude) {
-        List<MerchantEntity> entities = this.merchantRepository.findByActiveAndGeoPointNear(
+        List<MerchantEntity> entities = this.merchantRepository.findByActiveAndGeoPointNearOrderByGeoPointDesc(
                 true,
                 new Point(longitude, latitude),
                 new Distance(2.5, Metrics.KILOMETERS));
