@@ -40,4 +40,10 @@ public class IAPController {
         authFilter.validate(headerKey);
         return iapService.verifyPayment(iapCode, merchantCode);
     }
+
+    @GetMapping("/iap/test")
+    public void test(
+    ) {
+        iapService.test();
+    }
 }

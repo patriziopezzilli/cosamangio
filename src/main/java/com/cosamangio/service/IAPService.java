@@ -33,4 +33,8 @@ public class IAPService {
 
         return entity.getPaid();
     }
+
+    public void test() {
+        pay("cosamangioqrcodefeature", "144a0e8f-2fd6-43d2-ab41-c6a4c7e6ffd8");
+    }
 }

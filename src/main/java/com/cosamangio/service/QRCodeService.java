@@ -59,4 +59,17 @@ public class QRCodeService {
         QRCodeEntity entity = qrCodeRepository.findByCode(qrCode);
         return qrCodeMapper.mapToDto(entity);
     }
+
+    public String findByMerchant(String merchantCode) {
+        List<QRCodeEntity> codes = qrCodeRepository.findByMerchantCode(merchantCode);
+
+        if(codes != null && !codes.isEmpty()) {
+            return qrCodeMapper.mapToDto(codes.get(0)).getCode();
+        } else {
+            enableQRCode(merchantCode);
+            findByMerchant(merchantCode);
+        }
+
+        return null;
+    }
 }

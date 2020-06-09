@@ -30,4 +30,12 @@ public class QRCodeController {
     ) {
         return qrCodeService.getQRCode(code).getPdfUrl();
     }
+
+    @GetMapping("/qrcode")
+    public String retrieveQRcode(
+            @RequestParam String merchantCode
+    ) {
+        return qrCodeService.findByMerchant(merchantCode);
+    }
+
 }
