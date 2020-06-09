@@ -38,8 +38,8 @@ public class QRCodeService {
         qrCodeRepository.save(entity);
 
         try {
-            URL yahoo = new URL("http://www.cosamangio-qrcode.it?qrCode="
-            + uuid + "&merchantCode="+merchantCode+"&pdfUrl=MOM");
+            URL yahoo = new URL("https://www.cosamangio-qrcode.it/script/insert_qrcode.php?qrCode="
+                    + uuid + "&merchantCode=" + merchantCode + "&pdfUrl=TO_INSERT");
             URLConnection yc = yahoo.openConnection();
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(
@@ -54,6 +54,46 @@ public class QRCodeService {
         }
     }
 
+    public void setQrCode(String pdfUrl, String merchantCode) {
+        List<QRCodeEntity> codes = qrCodeRepository.findByMerchantCode(merchantCode);
+
+        if (codes != null && !codes.isEmpty()) {
+            codes.get(0).setPdfUrl(pdfUrl);
+            qrCodeRepository.saveAll(codes);
+
+            try {
+                URL yahoo = new URL("https://www.cosamangio-qrcode.it/script/remove_qrcode.php?qrCode=" + codes.get(0).getCode());
+                URLConnection yc = yahoo.openConnection();
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                yc.getInputStream()));
+                String inputLine;
+
+                while ((inputLine = in.readLine()) != null)
+                    System.out.println(inputLine);
+                in.close();
+            } catch (Exception e) {
+                System.out.println("> [ERROR] failed to update MYSQL");
+            }
+
+            try {
+                URL yahoo = new URL("https://www.cosamangio-qrcode.it/script/insert_qrcode.php?qrCode="
+                        + codes.get(0).getCode() + "&merchantCode=" + merchantCode + "&pdfUrl=" + pdfUrl);
+                URLConnection yc = yahoo.openConnection();
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                yc.getInputStream()));
+                String inputLine;
+
+                while ((inputLine = in.readLine()) != null)
+                    System.out.println(inputLine);
+                in.close();
+            } catch (Exception e) {
+                System.out.println("> [ERROR] failed to update MYSQL");
+            }
+        }
+    }
+
     public QRCode getQRCode(String qrCode) {
         System.out.print("> [QRCODE][GET] retrieve qr code " + qrCode);
         QRCodeEntity entity = qrCodeRepository.findByCode(qrCode);
@@ -63,7 +103,7 @@ public class QRCodeService {
     public String findByMerchant(String merchantCode) {
         List<QRCodeEntity> codes = qrCodeRepository.findByMerchantCode(merchantCode);
 
-        if(codes != null && !codes.isEmpty()) {
+        if (codes != null && !codes.isEmpty()) {
             return qrCodeMapper.mapToDto(codes.get(0)).getCode();
         } else {
             enableQRCode(merchantCode);

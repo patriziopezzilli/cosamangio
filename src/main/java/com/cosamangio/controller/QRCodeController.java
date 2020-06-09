@@ -38,4 +38,11 @@ public class QRCodeController {
         return qrCodeService.findByMerchant(merchantCode);
     }
 
+    @PutMapping("/qrcode")
+    public void setQRcode(
+            @RequestParam String merchantCode,
+            @RequestParam String pdfUrl) {
+        qrCodeService.setQrCode(pdfUrl, merchantCode);
+    }
+
 }
