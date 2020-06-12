@@ -21,7 +21,8 @@ public class QRCodeController {
 
     @GetMapping("/qrcode/test")
     public void test() {
-        qrCodeService.enableQRCode("39170500-2d95-47d7-8072-29f055ece36c");
+     //   qrCodeService.enableQRCode("ChIJPyUNHxHBhkcROGoFF-I7Pm0");
+     //   qrCodeService.setQrCode("https://www.ristorantemonopoli.com/ristoranti/pdf/38BBCE73-6254-42FA-82D9-98493FF5AF20.pdf", "ChIJPyUNHxHBhkcROGoFF-I7Pm0");
     }
 
     @GetMapping("/qrcode/resolve")

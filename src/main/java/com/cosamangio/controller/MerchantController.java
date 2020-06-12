@@ -61,10 +61,7 @@ public class MerchantController {
 
     @GetMapping("/qrcode")
     public Merchant retrieveByQRCode(
-            @RequestHeader(SECURITY_KEY_HEADER) String headerKey,
             @RequestParam String code) {
-
-        authFilter.validate(headerKey);
         return merchantService.findByQRCode(code);
     }
 
