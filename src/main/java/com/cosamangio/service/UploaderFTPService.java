@@ -10,8 +10,8 @@ public class UploaderFTPService {
 
     public void upload(MultipartFile file, String merchantCode, String prefix) {
         String FTP_ADDRESS = "ftp.ristorantemonopoli.com";
-        String LOGIN = "n63o4crk";
-        String PSW = "86h4n*8g%(*u";
+        String LOGIN = "10733989@aruba.it";
+        String PSW = "Lautaro10";
 
         FTPClient con = null;
 
